@@ -1,0 +1,8 @@
+{
+  "firestore": [
+    {
+      "database": "ai-studio-android-faceatte-2099f58a-415c-4956-99a4-a4645387c3f8",
+      "rules": "firestore.rules"
+    }
+  ]
+}

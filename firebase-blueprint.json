@@ -1,0 +1,51 @@
+{
+  "entities": {
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "Biometric face-based employee attendance record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique record document identifier" },
+        "employeeId": { "type": "number", "description": "Local employee ID" },
+        "employeeCode": { "type": "string", "description": "Employee badge code (e.g. EMP-1002)" },
+        "employeeName": { "type": "string", "description": "Full name of employee" },
+        "department": { "type": "string", "description": "Assigned company department" },
+        "type": { "type": "string", "description": "Punch type: CHECK_IN, CHECK_OUT, BREAK_START, BREAK_END" },
+        "timestampMillis": { "type": "number", "description": "Client recorded timestamp in milliseconds" },
+        "status": { "type": "string", "description": "Attendance status: ON_TIME, LATE, OVERTIME, EARLY_DEPARTURE, GEO_VERIFIED" },
+        "confidenceScore": { "type": "number", "description": "Biometric recognition confidence score between 0.0 and 1.0" },
+        "livenessVerified": { "type": "boolean", "description": "Whether optical liveness was verified" },
+        "antiSpoofPassed": { "type": "boolean", "description": "Whether anti-spoof check passed" },
+        "terminalName": { "type": "string", "description": "Name of kiosk hardware terminal" },
+        "locationName": { "type": "string", "description": "Physical office location" },
+        "syncedAt": { "type": "string", "format": "date-time", "description": "Server timestamp when synced to cloud" }
+      },
+      "required": ["employeeCode", "employeeName", "type", "timestampMillis", "status"]
+    },
+    "Employee": {
+      "title": "Employee",
+      "description": "Enrolled employee profile and biometric reference metadata",
+      "type": "object",
+      "properties": {
+        "employeeCode": { "type": "string", "description": "Employee badge code" },
+        "fullName": { "type": "string", "description": "Employee full name" },
+        "email": { "type": "string", "format": "email", "description": "Work email address" },
+        "department": { "type": "string", "description": "Department name" },
+        "designation": { "type": "string", "description": "Job title" },
+        "shiftName": { "type": "string", "description": "Assigned shift title" },
+        "isActive": { "type": "boolean", "description": "Active employment status" }
+      },
+      "required": ["employeeCode", "fullName", "department"]
+    }
+  },
+  "firestore": {
+    "/attendance_records/{recordId}": {
+      "schema": "AttendanceRecord",
+      "description": "Cloud collection of real-time employee face attendance audit logs"
+    },
+    "/employees/{employeeId}": {
+      "schema": "Employee",
+      "description": "Cloud directory of enrolled corporate employees"
+    }
+  }
+}

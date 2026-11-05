@@ -1,0 +1,6 @@
+{
+  "name": "FaceAttend",
+  "description": "Secure face-based attendance management system for employees with real-time logging, liveness verification, and kiosk mode.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

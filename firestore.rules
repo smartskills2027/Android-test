@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidAttendanceRecord(data) {
+      return data.size() >= 5
+        && data.employeeCode is string
+        && data.employeeCode.size() > 0
+        && data.employeeName is string
+        && data.employeeName.size() > 0
+        && data.type is string
+        && data.type in ['CHECK_IN', 'CHECK_OUT', 'BREAK_START', 'BREAK_END']
+        && data.status is string
+        && (data.timestampMillis is int || data.timestampMillis is float);
+    }
+
+    function isValidEmployee(data) {
+      return data.size() >= 3
+        && data.employeeCode is string
+        && data.fullName is string
+        && data.department is string;
+    }
+
+    match /attendance_records/{recordId} {
+      allow read: if true;
+      allow create, update: if isValidAttendanceRecord(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /employees/{employeeId} {
+      allow read: if true;
+      allow create, update: if isValidEmployee(request.resource.data);
+      allow delete: if false;
+    }
+  }
+}
